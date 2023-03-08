@@ -1,5 +1,4 @@
 /**
- * 雪球基金
  * cron: 1,11 19,20 * * *
  *
  * 环境变量: DNANJUANFUNDS, 值: [{"code": "050025", "principal": 10000, "share": 10000}]
@@ -12,7 +11,7 @@ const ENV = 'DNANJUANFUNDS';
     const data = $.getdata($.name) || {};
 
     const axios = require('axios');
-    const notify = require('./_notify.js');
+    const notify = require('./lib/notify.js');
 
     await Promise.all(funds.map(async (fund) => {
         const url = `https://danjuanfunds.com/djapi/fund/nav/history/${fund.code}?page=1&size=5`;

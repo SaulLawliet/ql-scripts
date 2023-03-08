@@ -28,7 +28,7 @@ const $ = new Env('Epic免费游戏');
         if (content) {
             while (data.length > 5) data.shift(); // 最多保存5个
             $.setdata(data, $.name);
-            require('./_notify').bark(`${$.name} 可领取`, content, {group: 'checklist'});
+            require('./lib/notify').bark(`${$.name} 可领取`, content, {group: 'checklist'});
         }
     });
 })()
