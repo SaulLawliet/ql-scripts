@@ -3,9 +3,9 @@
 ## 订阅
 
 ``` txt
-链接: `https://github.com/SaulLawliet/ql-scripts.git`
-黑名单: `.*/.*.js`
-依赖文件: `lib/.*.js`
+链接: https://github.com/SaulLawliet/ql-scripts.git
+黑名单: .*/.*.js
+依赖文件: lib/.*.js
 ```
 
 ## 列表

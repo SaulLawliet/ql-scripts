@@ -1,9 +1,15 @@
 /**
  * cron: 1 0 * * *
+ *
+ * 环境变量: EPIC_GAMES, 值: 1表示开启, 其他表示关闭
  */
 const $ = new Env('Epic免费游戏');
+const ENV = 'EPIC_GAMES';
 
 !(async () => {
+    if (process.env[ENV] != '1') {
+        return;
+    }
     const data = $.getdata($.name) || [];
 
     const axios = require('axios');
