@@ -1,10 +1,10 @@
 /**
  * cron: 1,11 19,20 * * *
  *
- * 环境变量: DNANJUANFUNDS, 值: [{"code": "050025", "principal": 10000, "share": 10000}]
+ * 环境变量: DANJUAN_FUNDS, 值: [{"code": "050025", "principal": 10000, "share": 10000}]
  */
 const $ = new Env('雪球基金');
-const ENV = 'DNANJUANFUNDS';
+const ENV = 'DANJUAN_FUNDS';
 
 !(async () => {
     const funds = JSON.parse(process.env[ENV]);
