@@ -38,7 +38,7 @@ const ENV = 'WEN_KU';
             if (data[id] == lastChapter) {
                 $.msg(`已通知过, 不必重复通知.`);
             } else {
-                await notify.telegram(`${$.name} ${title}`, `更新啦, 最新章节: ${lastChapter}`).then(() => {
+                await notify.telegram(`${$.name}: ${title}`, `更新啦: ${lastChapter}`, 'INFO').then(() => {
                     data[id] = lastChapter;
                     $.setdata(data, $.name);
                 });
