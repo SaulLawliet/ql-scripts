@@ -15,7 +15,7 @@ const ENV = 'DANJUAN_FUNDS';
 
     await Promise.all(funds.map(async (fund) => {
         const url = `https://danjuanfunds.com/djapi/fund/nav/history/${fund.code}?page=1&size=5`;
-        await axios.get(url).then((resp) => {
+        await axios.get(url).then(async (resp) => {
             let content = `本金: ${fund.principal}\n`;
             const items = resp.data.data.items;
             if (items[0].date === data[fund.code]) {
@@ -26,9 +26,11 @@ const ENV = 'DANJUAN_FUNDS';
                     content += `\n${item.date}: ${now.toFixed(2)} (${(now - fund.principal).toFixed(2)} / ${(100 *(now - fund.principal)/fund.principal).toFixed(2)}%)`;
                 });
 
-                notify.telegram(`${$.name}: ${fund.code}`, content, 'INFO');
-                data[fund.code] = items[0].date;
-                $.setdata(data, $.name);
+                // 消息发送成功才保存
+                await notify.telegram(`${$.name}: ${fund.code}`, content, 'INFO').then(() => {
+                    data[fund.code] = items[0].date;
+                    $.setdata(data, $.name);
+                });
             }
         });
     }));
