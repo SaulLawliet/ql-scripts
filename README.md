@@ -16,3 +16,4 @@
 
 - [基金收益提醒](danjuanfunds.js)
 - [Epic商店免费游戏领取通知](epicgames.js) (你也可以订阅[tg频道](https://t.me/freegames_sl)来获取Steam和Epic的免费游戏通知)
+- [轻小说文库更新](https://www.wenku8.net/)
