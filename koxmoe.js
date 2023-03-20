@@ -27,9 +27,10 @@ const ENV = 'KOXMOE_COOKIE';
             const time =  trList[3].querySelectorAll('td')[3].rawText.trim();
             $.log(`网站最后一次的推送: 【${title}】【${time}】`);
 
-            const data = $.getdata($.name);
+            let data = $.getdata($.name);
             if (title != data) {
                 await require('./lib/notify').telegram(`${$.name} 有更新`, `${title}\n${time}`, 'INFO').then(() => {
+                    data = title;
                     $.setdata(data, $.name);
                 });
             }
