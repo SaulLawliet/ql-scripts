@@ -33,6 +33,8 @@ const ENV = 'KOXMOE_COOKIE';
                     data = title;
                     $.setdata(data, $.name);
                 });
+            } else {
+                $.msg(`无更新`);
             }
         }
     });
