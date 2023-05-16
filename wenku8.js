@@ -22,9 +22,9 @@ const ENV = 'WEN_KU';
     const json = JSON.parse(process.env[ENV]);
 
     const config = {responseType: 'arraybuffer'};
-    if (json.proxy && process.env.ProxyUrl) {
-        const ProxyAgent = require('https-proxy-agent');
-        config.httpsAgent = ProxyAgent(process.env.ProxyUrl);
+    if (json.proxy && process.env.PROXY_URL) {
+        var HttpsProxyAgent = require('https-proxy-agent');
+        config = { httpsAgent: new HttpsProxyAgent.HttpsProxyAgent(process.env.PROXY_URL) };
     }
     await Promise.all(json.ids.map(async (id) => {
         const url = `https://www.wenku8.net/modules/article/reader.php?aid=${id}`;
