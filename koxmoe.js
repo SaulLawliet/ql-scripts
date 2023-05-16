@@ -29,7 +29,7 @@ const ENV = 'KOXMOE_COOKIE';
 
             let data = $.getdata($.name);
             if (title != data) {
-                await require('./lib/notify').telegram(`${$.name} 有更新`, `${title}\n${time}`, 'INFO').then(() => {
+                await require('./sendNotify.js').sendNotify(`${$.name} 有更新`, `${title}\n${time}`, {}, '').then(() => {
                     data = title;
                     $.setdata(data, $.name);
                 });

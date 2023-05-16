@@ -12,7 +12,6 @@ const ENV = 'WEN_KU';
         return;
     }
     const axios = require('axios');
-    const notify = require('./lib/notify.js');
 
     const iconv = require('iconv-lite');
     const { parse } = require('node-html-parser');
@@ -38,7 +37,7 @@ const ENV = 'WEN_KU';
             if (data[id] == lastChapter) {
                 $.msg(`已通知过, 不必重复通知.`);
             } else {
-                await notify.telegram(`${$.name}: ${title}`, `更新啦: ${lastChapter}`, 'INFO').then(() => {
+                await require('./sendNotify.js').sendNotify(`${$.name}: ${title}`, `更新啦: ${lastChapter}`, {}, '').then(() => {
                     data[id] = lastChapter;
                     $.setdata(data, $.name);
                 });

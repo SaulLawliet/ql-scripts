@@ -33,8 +33,7 @@ const ENV = 'EPIC_GAMES';
         });
         if (content) {
             while (data.length > 5) data.shift(); // 最多保存5个
-
-            await require('./lib/notify').bark(`${$.name} 可领取`, content, {group: 'checklist'}).then(() => {
+            await require('./sendNotify.js').sendNotify(`${$.name} 可领取`, content, {}, '').then(() => {
                 $.setdata(data, $.name);
             });
         }

@@ -11,12 +11,11 @@ const ENV = 'DANJUAN_FUNDS';
     const data = $.getdata($.name) || {};
 
     const axios = require('axios');
-    const notify = require('./lib/notify.js');
 
     await Promise.all(funds.map(async (fund) => {
-        const url = `https://danjuanfunds.com/djapi/fund/nav/history/${fund.code}?page=1&size=5`;
+        const url = `https://danjuanfunds.com/djapi/fund/nav/history/${fund.code}?page=1&size=3`;
         await axios.get(url).then(async (resp) => {
-            let content = `本金: ${fund.principal}\n`;
+            let content = '';
             const items = resp.data.data.items;
             if (items[0].date === data[fund.code]) {
                 $.msg(`${fund.code}: ${items[0].date} 已通知过, 不必重复通知.`);
@@ -27,7 +26,7 @@ const ENV = 'DANJUAN_FUNDS';
                 });
 
                 // 消息发送成功才保存
-                await notify.telegram(`${$.name}: ${fund.code}`, content, 'INFO').then(() => {
+                await require('./sendNotify.js').sendNotify(`${$.name}: ${fund.code}, 本金: ${fund.principal}`, content, {}, '').then(() => {
                     data[fund.code] = items[0].date;
                     $.setdata(data, $.name);
                 });
