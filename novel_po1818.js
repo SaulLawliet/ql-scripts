@@ -44,8 +44,8 @@ const ENV = 'PO1818';
             if (data[id] == lastChapter) {
                 $.msg(`已通知过, 不必重复通知.`);
             } else {
-                if (config.bark) {
-                    await require('./lib/notify.js').bark(config.bark, `${$.name}: ${title}`, `更新啦: ${lastChapter}`, {url: href}).then(() => {
+                if (json.bark) {
+                    await require('./lib/notify.js').bark(json.bark, `${$.name}: ${title}`, `更新啦: ${lastChapter}`, {url: href}).then(() => {
                         data[id] = lastChapter;
                         $.setdata(data, $.name);
                     });
@@ -56,7 +56,6 @@ const ENV = 'PO1818';
                     });
                 }
             }
-
         });
     }));
 
