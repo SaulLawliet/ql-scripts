@@ -1,39 +1,46 @@
 /**
- * cron: 0 0 * * *
+ * cron: 0 18 * * *
  *
- * 环境变量: WEN_KU, 值: {"proxy": false, "ids": [1861]}
+ * https://m.po1818.com/ 小说更新
+ *
+ * 环境变量: PO1818, 值: {"proxy": true, ids: [54523]}
  */
-const $ = new Env('轻小说文库');
-const ENV = 'WEN_KU';
+const $ = new Env('po1818小说');
+const ENV = 'PO1818';
 
 !(async () => {
     // 代码开始
-    if (!process.env[ENV]) {
+    if (process.env[ENV]) {
         return;
     }
-    const axios = require('axios');
-
-    const iconv = require('iconv-lite');
-    const { parse } = require('node-html-parser');
-
     const data = $.getdata($.name) || {};
-
     const json = JSON.parse(process.env[ENV]);
 
-    const config = {responseType: 'arraybuffer'};
+    const axios = require('axios');
+    const { parse } = require('node-html-parser');
+    let config = {};
     if (json.proxy && process.env.PROXY_URL) {
         var HttpsProxyAgent = require('https-proxy-agent');
         config.httpsAgent = new HttpsProxyAgent.HttpsProxyAgent(process.env.PROXY_URL);
     }
+
+    const host = 'https://m.po1818.com';
+
     await Promise.all(json.ids.map(async (id) => {
-        const url = `https://www.wenku8.net/modules/article/reader.php?aid=${id}`;
+        const url = `${host}/novel/${id}.html`;
 
         await axios.get(url, config).then(async(resp) => {
-            const root = parse(iconv.decode(resp.data, 'gbk'));
-            const title = root.querySelector('#title').rawText;
-            const lastChapter = root.querySelectorAll('.vcss').pop().rawText;
+            const root = parse(resp.data);
+            const title = root.querySelectorAll('.h_nav_items li+ li').pop().rawText;
+
+            const lastPost = root.querySelectorAll('.chapterList a').pop();
+            const lastChapter = lastPost.rawText;
+
+            const href = `${host}${lastPost.rawAttributes.href}`;
+
             $.log(`标题: ${title}`);
             $.log(`最新章节: ${lastChapter}`);
+
             if (data[id] == lastChapter) {
                 $.msg(`已通知过, 不必重复通知.`);
             } else {
@@ -42,6 +49,7 @@ const ENV = 'WEN_KU';
                     $.setdata(data, $.name);
                 });
             }
+
         });
     }));
 
