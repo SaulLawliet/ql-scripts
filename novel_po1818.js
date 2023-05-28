@@ -33,7 +33,7 @@ const ENV = 'PO1818';
             const root = parse(resp.data);
             const title = root.querySelectorAll('.h_nav_items li+ li').pop().rawText;
 
-            const lastPost = root.querySelectorAll('.chapterList a').pop();
+            const lastPost = root.querySelectorAll('.article_info_td:nth-child(1) div:nth-child(3) a').pop();
             const lastChapter = lastPost.rawText;
 
             const href = `${host}${lastPost.rawAttributes.href}`;
