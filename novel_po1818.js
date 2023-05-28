@@ -3,7 +3,7 @@
  *
  * https://m.po1818.com/ 小说更新
  *
- * 环境变量: PO1818, 值: {"proxy": true, ids: [54523]}
+ * 环境变量: PO1818, 值: {"proxy": true, "bark": "zhangsan", "ids": [54523]}
  */
 const $ = new Env('po1818小说');
 const ENV = 'PO1818';
@@ -44,10 +44,17 @@ const ENV = 'PO1818';
             if (data[id] == lastChapter) {
                 $.msg(`已通知过, 不必重复通知.`);
             } else {
-                await require('./sendNotify.js').sendNotify(`${$.name}: ${title}`, `更新啦: ${lastChapter}`, {}, '').then(() => {
-                    data[id] = lastChapter;
-                    $.setdata(data, $.name);
-                });
+                if (config.bark) {
+                    await require('./lib/notify.js').bark(config.bark, `${$.name}: ${title}`, `更新啦: ${lastChapter}`, {url: href}).then(() => {
+                        data[id] = lastChapter;
+                        $.setdata(data, $.name);
+                    });
+                } else {
+                    await require('./sendNotify.js').sendNotify(`${$.name}: ${title}`, `更新啦: ${lastChapter}`, {}, '').then(() => {
+                        data[id] = lastChapter;
+                        $.setdata(data, $.name);
+                    });
+                }
             }
 
         });
