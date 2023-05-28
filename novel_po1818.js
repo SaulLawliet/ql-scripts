@@ -10,7 +10,7 @@ const ENV = 'PO1818';
 
 !(async () => {
     // 代码开始
-    if (process.env[ENV]) {
+    if (!process.env[ENV]) {
         return;
     }
     const data = $.getdata($.name) || {};
