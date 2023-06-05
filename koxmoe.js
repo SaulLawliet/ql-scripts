@@ -20,6 +20,11 @@ const ENV = 'KOXMOE_COOKIE';
     const { parse } = require('node-html-parser');
     await axios.get('https://kox.moe/myrecord.php', config).then(async (resp) => {
         const root = parse(resp.data);
+        if (root.querySelector('.nav_user a').rawText === '登錄') {
+            $.log(`Cookie已过期`);
+            await require('./sendNotify.js').sendNotify(`${$.name}`, `Cookie已过期`, {}, '');
+            return;
+        }
         const table = root.querySelectorAll('.book_list').pop();
         const trList = table.querySelectorAll('tr');
         if (trList.length > 3) {

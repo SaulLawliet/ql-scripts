@@ -32,6 +32,12 @@ const ENV = 'PO18';
 
     await axios.get(`${host}/panel/stock_manage/stocks`, config).then(async (resp) => {
         const root = parse(resp.data);
+        if (!root.querySelector('.member')) {
+            $.log(`Cookie已过期`);
+            await require('./sendNotify.js').sendNotify(`${$.name}`, `Cookie已过期`, {}, '');
+            return;
+        }
+        console.log(root.querySelector('.console.log(resp.data);'));
         for (const tr of root.querySelectorAll('tbody tr')) {
             const title = tr.querySelector('.T_name').rawText;
 
