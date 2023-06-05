@@ -37,7 +37,6 @@ const ENV = 'PO18';
             await require('./sendNotify.js').sendNotify(`${$.name}`, `Cookie已过期`, {}, '');
             return;
         }
-        console.log(root.querySelector('.console.log(resp.data);'));
         for (const tr of root.querySelectorAll('tbody tr')) {
             const title = tr.querySelector('.T_name').rawText;
 
