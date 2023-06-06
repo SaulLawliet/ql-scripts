@@ -26,6 +26,8 @@ const ENV = 'EPIC_GAMES';
                         if (!data.includes(element.title)) {
                             data.push(element.title);
                             content += `${element.title}, 截止: ${offer.endDate}\n`;
+                        } else {
+                            $.log(`已通知过: ${element.title}, 截止: ${offer.endDate}`);
                         }
                     }
                 });

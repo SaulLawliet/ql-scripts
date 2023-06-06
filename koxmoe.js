@@ -41,6 +41,8 @@ const ENV = 'KOXMOE_COOKIE';
             } else {
                 $.msg(`无更新`);
             }
+        } else {
+            $.msg(`最近 31 天内无推送记录`);
         }
     });
 })()
