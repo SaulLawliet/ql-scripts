@@ -16,3 +16,4 @@
 - [Epic商店免费游戏领取通知](epicgames.js)
 - [轻小说文库更新](wenku8.js)
 - [Kox.moe(Kindle漫画)](koxmoe.js)
+- [PO18书柜的书有更新](po18.js)
