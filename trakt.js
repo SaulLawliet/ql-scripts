@@ -42,7 +42,7 @@ const ENV = 'TRAKT';
             const date = post.querySelector('.convert-date').rawAttributes["data-date"];
 
             if (data[key] !== episode) {
-                $.msg(`NEW! {name}: ${episode}`);
+                $.msg(`NEW! ${name}: ${episode}`);
                 await require('./sendNotify.js').sendNotify(`${$.name}: ${name}`, `${episode}\n${date}`, {}, '').then(() => {
                     data[key] = episode;
                     $.setdata(data, $.name);
