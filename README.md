@@ -18,3 +18,4 @@
 - [Kox.moe(Kindle漫画)](koxmoe.js)
 - [PO18书柜的书有更新](po18.js)
 - [trakt.tv(剧集更新提醒)](trakt.js)
+- [东立电子书城更新](dongli.js)
