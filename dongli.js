@@ -1,12 +1,12 @@
 /**
- * cron: 0 12 * * *
+ * cron: 0 0 * * *
  *
- * trakt.tv 剧集更新提醒
+ * 东立电子书城: 检查是否有更新
  *
- * 环境变量: TRAKT, 值: {"proxy": true, "user": "nat_strosin"}
+  * 环境变量: DONGLI, 值: {"f0f3982e-6e75-4c66-a448-08db9236f8bd": "鏈鋸人"}
  */
-const $ = new Env('TraktTV');
-const ENV = 'TRAKT';
+const $ = new Env('东立电子书城更新');
+const ENV = 'DONGLI';
 
 !(async () => {
     if (!process.env[ENV]) {
@@ -14,42 +14,31 @@ const ENV = 'TRAKT';
     }
 
     const data = $.getdata($.name) || {};
-    const json = JSON.parse(process.env[ENV]);
-
-    const url = `https://trakt.tv/users/${json.user}/progress/watched/recently-aired`;
+    const json = JSON.parse(process.env[ENV])
 
     const axios = require('axios');
-    const { parse } = require('node-html-parser');
-    const config = {
-        headers: {
-            cookie: json.cookie
-        },
-    };
-    if (json.proxy && process.env.PROXY_URL) {
-        var HttpsProxyAgent = require('https-proxy-agent');
-        config.httpsAgent = new HttpsProxyAgent.HttpsProxyAgent(process.env.PROXY_URL);
-    }
 
-    await axios.get(url, config).then(async (resp) => {
-        const root = parse(resp.data);
-        for (const post of root.querySelectorAll('.posters')) {
-            if (post.querySelector('.percentage').rawText === '100%') {
-                break
-            }
-            const key = post.rawAttributes["data-url"].split('/').pop();
-            const name = post.querySelector('.show-title').rawText;
-            const episode = post.querySelector('.titles h3').rawText;
-            const date = post.querySelector('.convert-date').rawAttributes["data-date"];
+    for (const bookId of Object.keys(json)) {
+        await axios.get('https://api.tongli.tw/Book?bookID=' + bookId).then(async (resp) => {
+            const title = resp.data.Title;
+            const vol = resp.data.Vol;
+            const onShelfDate = resp.data.OnShelfDate;
+            const introduction = resp.data.Introduction;
 
-            if (data[key] !== episode) {
-                $.msg(`NEW! ${name}: ${episode}`);
-                await require('./sendNotify.js').sendNotify(`${$.name}: ${name}`, `${episode}\n${date}`, {}, '').then(() => {
-                    data[key] = episode;
+            const link = `https://ebook.tongli.com.tw/reader/FireBase3.html?bookID=${bookId}`
+
+            if (data[bookId] === vol) {
+                $.msg(`${title}: ${vol} 已通知过, 不发送提醒`);
+            } else {
+                $.msg(`${title}: ${vol} 发现更新, 发送提醒`);
+                await require('./sendNotify.js').sendNotify(`${$.name}: ${title}`, `${vol}\n${onShelfDate}\n${introduction}\n${link}`, {}, '').then(() => {
+                    data[bookId] = vol;
                     $.setdata(data, $.name);
                 });
             }
-        }
-    });
+        })
+    }
+
 })()
 .catch((e) => {
     $.logErr(e);
