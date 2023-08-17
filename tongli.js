@@ -3,10 +3,10 @@
  *
  * 东立电子书城: 检查是否有更新
  *
-  * 环境变量: DONGLI, 值: {"f0f3982e-6e75-4c66-a448-08db9236f8bd": "鏈鋸人"}
+  * 环境变量: TONGLI, 值: {"f0f3982e-6e75-4c66-a448-08db9236f8bd": "鏈鋸人"}
  */
-const $ = new Env('东立电子书城更新');
-const ENV = 'DONGLI';
+const $ = new Env('东立电子书城');
+const ENV = 'TONGLI';
 
 !(async () => {
     if (!process.env[ENV]) {
@@ -38,7 +38,6 @@ const ENV = 'DONGLI';
             }
         })
     }
-
 })()
 .catch((e) => {
     $.logErr(e);
