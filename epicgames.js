@@ -15,7 +15,7 @@ const ENV = 'EPIC_GAMES';
     const axios = require('axios');
     const url = 'https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions?locale=en-US&country=US&allowCountries=US,CN';
 
-    axios.get(url).then(async (resp) => {
+    await axios.get(url).then(async (resp) => {
         let content = '';
         resp.data.data.Catalog.searchStore.elements.forEach((element) => {
             const promotions = element.promotions;
@@ -26,6 +26,7 @@ const ENV = 'EPIC_GAMES';
                         if (!data.includes(element.title)) {
                             data.push(element.title);
                             content += `${element.title}, 截止: ${offer.endDate}\n`;
+                            $.log(`发现新游戏: ${element.title}, 截止: ${offer.endDate}`);
                         } else {
                             $.log(`已通知过: ${element.title}, 截止: ${offer.endDate}`);
                         }
