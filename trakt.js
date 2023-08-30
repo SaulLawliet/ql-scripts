@@ -43,7 +43,7 @@ const ENV = 'TRAKT';
 
             if (data[key] !== episode) {
                 $.msg(`NEW! ${name}: ${episode}`);
-                await require('./sendNotify.js').sendNotify(`${$.name}: ${name}`, `${episode}\n${date}`, {}, '').then(() => {
+                await require('./sendNotify.js').sendNotify(`#${$.name}: ${name}`, `${episode}\n${date}`, {}, '').then(() => {
                     data[key] = episode;
                     $.setdata(data, $.name);
                 });
