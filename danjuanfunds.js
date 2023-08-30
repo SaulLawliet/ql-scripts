@@ -20,6 +20,7 @@ const ENV = 'DANJUAN_FUNDS';
             if (items[0].date === data[fund.code]) {
                 $.msg(`${fund.code}: ${items[0].date} 已通知过, 不必重复通知.`);
             } else {
+                $.msg(`${fund.code}: 发现更新, 准备通知!`)
                 items.forEach((item) => {
                     const now = parseFloat(item.nav) * fund.share;
                     content += `\n${item.date}: ${now.toFixed(2)} (${(now - fund.principal).toFixed(2)} / ${(100 *(now - fund.principal)/fund.principal).toFixed(2)}%)`;

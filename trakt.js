@@ -47,6 +47,8 @@ const ENV = 'TRAKT';
                     data[key] = episode;
                     $.setdata(data, $.name);
                 });
+            } else {
+                $.msg(`已通知过, ${name}: ${episode}`);
             }
         }
     });
