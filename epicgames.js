@@ -26,7 +26,7 @@ const ENV = 'EPIC_GAMES';
                         if (!data.includes(element.title)) {
                             data.push(element.title);
                             content += `${element.title}, 截止: ${offer.endDate}\n`;
-                            $.log(`发现新游戏: ${element.title}, 截止: ${offer.endDate}`);
+                            $.msg(`发现新游戏: ${element.title}, 截止: ${offer.endDate}`);
                         } else {
                             $.log(`已通知过: ${element.title}, 截止: ${offer.endDate}`);
                         }

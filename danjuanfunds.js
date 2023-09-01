@@ -18,7 +18,7 @@ const ENV = 'DANJUAN_FUNDS';
             let content = '';
             const items = resp.data.data.items;
             if (items[0].date === data[fund.code]) {
-                $.msg(`${fund.code}: ${items[0].date} 已通知过, 不必重复通知.`);
+                $.log(`${fund.code}: ${items[0].date} 已通知过, 不必重复通知.`);
             } else {
                 $.msg(`${fund.code}: 发现更新, 准备通知!`)
                 items.forEach((item) => {

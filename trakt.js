@@ -48,7 +48,7 @@ const ENV = 'TRAKT';
                     $.setdata(data, $.name);
                 });
             } else {
-                $.msg(`已通知过, ${name}: ${episode}`);
+                $.log(`已通知过, ${name}: ${episode}`);
             }
         }
     });

@@ -34,12 +34,13 @@ const ENV = 'KOXMOE_COOKIE';
 
             let data = $.getdata($.name);
             if (title != data) {
+                $.msg(`发现更新: ${title}`);
                 await require('./sendNotify.js').sendNotify(`${$.name} 有更新`, `${title}\n${time}`, {}, '').then(() => {
                     data = title;
                     $.setdata(data, $.name);
                 });
             } else {
-                $.msg(`无更新`);
+                $.log(`无更新`);
             }
         } else {
             $.msg(`最近 31 天内无推送记录`);

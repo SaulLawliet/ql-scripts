@@ -48,8 +48,9 @@ const ENV = 'PO18';
             $.log(`最新章节: ${lastChapter}`);
 
             if (data[title] == lastChapter) {
-                $.msg(`已通知过, 不必重复通知.`);
+                $.log(`已通知过, 不必重复通知.`);
             } else {
+                $.msg(`【${title}】发现新章节: ${lastChapter}`);
                 if (json.bark) {
                     await require('./lib/notify.js').bark(json.bark, `${$.name}: ${title}`, `更新啦: ${lastChapter}`, {url: href}).then(() => {
                         data[title] = lastChapter;

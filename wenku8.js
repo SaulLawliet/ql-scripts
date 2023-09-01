@@ -35,8 +35,9 @@ const ENV = 'WEN_KU';
             $.log(`标题: ${title}`);
             $.log(`最新章节: ${lastChapter}`);
             if (data[id] == lastChapter) {
-                $.msg(`已通知过, 不必重复通知.`);
+                $.log(`已通知过, 不必重复通知.`);
             } else {
+                $.msg(`【${title}】发现更新: ${lastChapter}`);
                 await require('./sendNotify.js').sendNotify(`${$.name}: ${title}`, `更新啦: ${lastChapter}`, {}, '').then(() => {
                     data[id] = lastChapter;
                     $.setdata(data, $.name);
