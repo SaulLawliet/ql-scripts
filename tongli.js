@@ -3,7 +3,7 @@
  *
  * 东立电子书城: 检查是否有更新
  *
-  * 环境变量: TONGLI, 值: {"f0f3982e-6e75-4c66-a448-08db9236f8bd": "鏈鋸人"}
+  * 环境变量: TONGLI, 值: {"52ffcfe8-e56a-e911-90ce-00155d020a17": "鏈鋸人"}
  */
 const $ = new Env('东立电子书城');
 const ENV = 'TONGLI';
@@ -18,25 +18,29 @@ const ENV = 'TONGLI';
 
     const axios = require('axios');
 
-    for (const bookId of Object.keys(json)) {
-        await axios.get('https://api.tongli.tw/Book?bookID=' + bookId).then(async (resp) => {
-            const title = resp.data.Title;
-            const vol = resp.data.Vol;
-            const onShelfDate = resp.data.OnShelfDate;
-            const introduction = resp.data.Introduction;
+    for (const bookGroupID of Object.keys(json)) {
+        await axios.get(`https://api.tongli.tw/Book/BookVol/${bookGroupID}?isSerial=true`).then(async (resp) => {
+            const bookID = resp.data.pop()['BookID']
 
-            const link = `https://ebook.tongli.com.tw/reader/FireBase3.html?bookID=${bookId}`
+            await axios.get('https://api.tongli.tw/Book?bookID=' + bookID).then(async (resp) => {
+                const title = resp.data.Title;
+                const vol = resp.data.Vol;
+                const onShelfDate = resp.data.OnShelfDate;
+                const introduction = resp.data.Introduction;
 
-            if (data[bookId] === vol) {
-                $.msg(`${title}: ${vol} 已通知过, 不发送提醒`);
-            } else {
-                $.msg(`${title}: ${vol} 发现更新, 发送提醒`);
-                await require('./sendNotify.js').sendNotify(`${$.name}: ${title}`, `${vol}\n${onShelfDate}\n${introduction}\n${link}`, {}, '').then(() => {
-                    data[bookId] = vol;
-                    $.setdata(data, $.name);
-                });
-            }
-        })
+                const link = `https://ebook.tongli.com.tw/reader/FireBase3.html?bookID=${bookID}`
+
+                if (data[bookID] === vol) {
+                    $.log(`${title}: ${vol} 已通知过, 不发送提醒`);
+                } else {
+                    $.msg(`${title}: ${vol} 发现更新, 发送提醒`);
+                    await require('./sendNotify.js').sendNotify(`${$.name}: ${title}`, `${vol}\n${onShelfDate}\n${introduction}\n${link}`, {}, '').then(() => {
+                        data[bookID] = vol;
+                        $.setdata(data, $.name);
+                    });
+                }
+            })
+        });
     }
 })()
 .catch((e) => {
