@@ -20,7 +20,13 @@ const ENV = 'TONGLI';
 
     for (const bookGroupID of Object.keys(json)) {
         await axios.get(`https://api.tongli.tw/Book/BookVol/${bookGroupID}?isSerial=true`).then(async (resp) => {
-            const bookID = resp.data.pop()['BookID']
+            const book = resp.data.pop();
+            if (book['IsUpcoming']) {
+                $.log(`${json[bookGroupID]}: ${book['Vol']} 还未公开, 不发送提醒`);
+                return;
+            }
+
+            const bookID = book['BookID']
 
             await axios.get('https://api.tongli.tw/Book?bookID=' + bookID).then(async (resp) => {
                 const title = resp.data.Title;
@@ -30,12 +36,12 @@ const ENV = 'TONGLI';
 
                 const link = `https://ebook.tongli.com.tw/reader/FireBase3.html?bookID=${bookID}`
 
-                if (data[bookID] === vol) {
+                if (data[bookGroupID] === vol) {
                     $.log(`${title}: ${vol} 已通知过, 不发送提醒`);
                 } else {
                     $.msg(`${title}: ${vol} 发现更新, 发送提醒`);
                     await require('./sendNotify.js').sendNotify(`${$.name}: ${title}`, `${vol}\n${onShelfDate}\n${introduction}\n${link}`, {}, '').then(() => {
-                        data[bookID] = vol;
+                        data[bookGroupID] = vol;
                         $.setdata(data, $.name);
                     });
                 }
