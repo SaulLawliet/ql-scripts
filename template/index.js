@@ -8,9 +8,14 @@ const ENV = '环境变量名字';
 
 !(async () => {
     // 代码开始
-    if (process.env[ENV] != '1') {
+    if (!process.env[ENV]) {
         return;
     }
+
+    // 常用代码
+    // const env = JSON.parse(process.env[ENV]); // 读取环境变量
+    // const data = $.getdata($.name) || {}; // 读取配置
+    // $.setdata(data, $.name); // 保存配置
 
 })()
 .catch((e) => {

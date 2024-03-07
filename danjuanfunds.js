@@ -7,6 +7,9 @@ const $ = new Env('雪球基金');
 const ENV = 'DANJUAN_FUNDS';
 
 !(async () => {
+    if (!process.env[ENV]) {
+        return;
+    }
     const funds = JSON.parse(process.env[ENV]);
     const data = $.getdata($.name) || {};
 

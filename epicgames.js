@@ -7,7 +7,7 @@ const $ = new Env('Epic免费游戏');
 const ENV = 'EPIC_GAMES';
 
 !(async () => {
-    if (process.env[ENV] != '1') {
+    if (!process.env[ENV]) {
         return;
     }
     const data = $.getdata($.name) || [];
