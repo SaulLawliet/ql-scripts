@@ -19,3 +19,4 @@
 - [PO18书柜的书有更新](po18.js)
 - [trakt.tv(剧集更新提醒)](trakt.js)
 - [东立电子书城更新](tongli.js)
+- [B站视频动态更新提醒](bilibili-dynamic.js)
