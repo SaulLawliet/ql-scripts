@@ -2,6 +2,10 @@
  * cron: 1 10-23 * * *
  *
  * 环境变量: BILIBILI (可能共享, 所以设计成这样), 值: {"cookie": "", "dynamic": true}
+ *
+ * Q: Cookie 1-2天就过期了
+ * A: https://github.com/DIYgod/RSSHub/issues/12207#issuecomment-1636718921
+ *    用隐身模式登入获取,获取后不要在网页上使用这个 Cookie 即可有很长的有效期
  */
 const $ = new Env('B站动态视频');
 const ENV = 'BILIBILI';
