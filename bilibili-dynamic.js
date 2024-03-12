@@ -30,6 +30,10 @@ const ENV = 'BILIBILI';
     await axios.get("https://api.bilibili.com/x/polymer/web-dynamic/v1/feed/all?type=video&platform=web&page=1", config).then(async (resp) => {
         let content = '';
         let flag = 0;
+        if (!resp.data.data) {
+            await require('./sendNotify.js').sendNotify(`${$.name}`, 'Cookie已过期, 请更换', {}, '')
+            return
+        }
         for (const item of resp.data.data.items) {
             const author = item.modules.module_author.name;
             const ts = item.modules.module_author.pub_ts;
