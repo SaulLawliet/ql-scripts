@@ -20,7 +20,13 @@ const ENV = 'WEN_KU';
 
     const json = JSON.parse(process.env[ENV]);
 
-    const config = {responseType: 'arraybuffer'};
+    const config = {
+        responseType: "arraybuffer",
+        headers: {
+            "user-agent":
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+        },
+    };
     if (json.proxy && process.env.PROXY_URL) {
         var HttpsProxyAgent = require('https-proxy-agent');
         config.httpsAgent = new HttpsProxyAgent.HttpsProxyAgent(process.env.PROXY_URL);
