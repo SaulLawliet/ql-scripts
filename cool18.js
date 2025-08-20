@@ -43,9 +43,9 @@ const ENV = "COOL18";
         for (const key of json.keys) {
           if (subject.includes(key)) {
             let title = subject.split("<span")[0];
-            let tid = thread["tid"];
+            let tid = parseInt(thread["tid"])
             $.log(`发现帖子: ${title}`);
-            if (data[key] == tid) {
+            if (parseInt(data[key]) >= tid) {
               $.log(`已通知过, 不必重复通知.`);
             } else {
               $.msg(`【${key}】发现更新: ${title}`);
